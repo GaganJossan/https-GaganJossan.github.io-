@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FL Coaches Corner</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .repeat-coaching-button {
+            background-color: red;
+            color: white;
+        }
+        .coaching-button {
+            background-color: yellow;
+            color: black;
+        }
+        .shoutout-button {
+            background-color: green;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="menuButton" class="menu-icon" style="display: none;">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+        <div id="logoTitleContainer">
+            <img src="https://1000logos.net/wp-content/uploads/2017/08/Lululemon-Logo.png" alt="Lululemon Logo" id="logoImage">
+            <h1>FL Coaches Corner</h1>
+        </div>
+        <div id="searchContainer" style="display: none;">
+            <input type="text" id="searchBar" placeholder="SEARCH BY ASSOCIATE USER ID...">
+            <button id="searchButton">Search</button>
+        </div>
+    </header>
+    <div id="menuOverlay"></div>
+    <div id="menu" style="display: none;">
+        <div class="profile-section">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAdfqFtIlh9m2XzuAlH9ZR0IlOC8axO9SDKA&s" alt="Profile Picture" class="profile-picture">
+            <h3 id="username">MIL ECOM DAYS</h3>
+        </div>
+        <h2>Menu</h2>
+        <a href="#" id="flFeedbacksOverview">FL Feedbacks Overview</a>
+        <a href="#" id="associateFeedbacksOverview">Associates Feedbacks Overview</a>
+        <a href="#" id="logoutButton">Logout</a>
+        <div class="menu-content">
+            <p>&copy; Gagandeep 2024</p>
+        </div>
+    </div>
+    <main>
+        <section id="loginFormSection">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+                <button type="submit">Login</button>
+                <p id="loginError" style="color: red;"></p>
+            </form>
+        </section>
+        <section id="feedbackFormSection" style="display: none;">
+            <h2>Add Feedback</h2>
+            <form id="feedbackForm">
+                <label for="dateOfCoaching">Date of Coaching:</label>
+                <input type="date" id="dateOfCoaching" required>
+                
+                <label for="flSubmitted">FL Submitted:</label>
+                <select id="flSubmitted" required>
+                    <option value="SANJAY">SANJAY</option>
+                    <option value="SHABNAM">SHABNAM</option>
+                    <option value="GIANCARLO">GIANCARLO</option>
+                    <option value="ANKUSH">ANKUSH</option>
+                    <option value="DELL">DELL</option>
+                </select>
+                
+                <label for="topicBulletPoint">Topic:</label>
+                <select id="topicBulletPoint" required>
+                    <option value="UPH">UPH</option>
+                    <option value="Shoutout" class="shoutout-button">Shoutout</option>
+                    <option value="Repeat Coaching" class="repeat-coaching-button">Repeat Coaching</option>
+                    <option value="Coaching" class="coaching-button">Coaching</option>
+                    <option value="Training">Training</option>
+                </select>
+
+                <label for="subTopic">Sub Topic:</label>
+                <input type="text" id="subTopic" required>
+                
+                <label for="associateName">Associate User ID:</label>
+                <input type="text" id="associateName" required>
+                
+                <label for="feedbackText">Feedback:</label>
+                <textarea id="feedbackText" placeholder="Enter feedback here..." required></textarea>
+                
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </section>
+        <section id="searchResults" style="display: none;">
+            <h2>Feedback Summary for <span id="summaryAssociateName"></span></h2>
+            <div id="errorMessage" style="display: none; color: red;">No data found for the given associate name.</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Topic</th>
+                        <th>Sum of Events</th>
+                    </tr>
+                </thead>
+                <tbody id="feedbackSummary"></tbody>
+            </table>
+            <button id="backToMainButton">Back to Main</button>
+        </section>
+        <section id="detailView" style="display: none;">
+            <h2>Detail View</h2>
+            <table id="detailTable">
+                <thead>
+                    <tr>
+                        <th>Date Submitted</th>
+                        <th>Topic</th>
+                        <th>Sub Topic</th>
+                        <th>Feedback</th>
+                        <th>Submitted By</th>
+                        <th>Associate Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Detailed rows will be added here -->
+                </tbody>
+            </table>
+            <button id="backToSummaryButton">Back to Summary</button>
+        </section>
+        <section id="flOverviewSection" style="display: none;">
+            <h2>FL Feedbacks Overview</h2>
+            <div id="flOverviewCards"></div>
+            <button id="backToMainFromOverviewButton">Back to Main</button>
+        </section>
+        <section id="associateOverviewSection" style="display: none;">
+            <h2>Associates Feedbacks Overview</h2>
+            <div id="associateOverviewCards"></div>
+            <button id="backToMainFromAssociateOverviewButton">Back to Main</button>
+        </section>
+        <section id="flDetailView" style="display: none;">
+            <h2>FL Feedback Details</h2>
+            <table id="flDetailTable">
+                <thead>
+                    <tr>
+                        <th>Date Submitted</th>
+                        <th>Topic</th>
+                        <th>Sub Topic</th>
+                        <th>Feedback</th>
+                        <th>Submitted By</th>
+                        <th>Associate Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="flDetailTableBody"></tbody>
+            </table>
+            <button id="backToOverviewButton">Back to Overview</button>
+        </section>
+        <section id="associateDetailView" style="display: none;">
+            <h2>Associate Feedback Details</h2>
+            <table id="associateDetailTable">
+                <thead>
+                    <tr>
+                        <th>Date Submitted</th>
+                        <th>Topic</th>
+                        <th>Sub Topic</th>
+                        <th>Feedback</th>
+                        <th>Submitted By</th>
+                        <th>Associate Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="associateDetailTableBody"></tbody>
+            </table>
+            <button id="backToAssociateOverviewButton">Back to Overview</button>
+        </section>
+    </main>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
+      import { getDatabase, ref, set, push, onValue, orderByChild, query, equalTo, remove, update } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+      import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDvkJUQFsAGDQNY__TmKUvom7HkvK_OEsI",
+        authDomain: "fl-coaches-corner.firebaseapp.com",
+        projectId: "fl-coaches-corner",
+        storageBucket: "fl-coaches-corner.appspot.com",
+        messagingSenderId: "748798786709",
+        appId: "1:748798786709:web:dc7bf765761812489e6f9c",
+        measurementId: "G-G0RY03B6D3"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const database = getDatabase(app);
+      const auth = getAuth(app);
+      const feedbackRef = ref(database, 'feedbacks');
+
+      // Authentication state observer
+      onAuthStateChanged(auth, (user) => {
+        const loginFormSection = document.getElementById('loginFormSection');
+        const feedbackFormSection = document.getElementById('feedbackFormSection');
+        const searchContainer = document.getElementById('searchContainer');
+        const logoutButton = document.getElementById('logoutButton');
+        const menuButton = document.getElementById('menuButton');
+        const menu = document.getElementById('menu');
+        if (user) {
+          // User is signed in
+          loginFormSection.style.display = 'none';
+          feedbackFormSection.style.display = 'block';
+          searchContainer.style.display = 'flex';
+          logoutButton.style.display = 'block';
+          menuButton.style.display = 'block';
+          menu.style.display = 'block';
+        } else {
+          // User is signed out
+          loginFormSection.style.display = 'block';
+          feedbackFormSection.style.display = 'none';
+          searchContainer.style.display = 'none';
+          logoutButton.style.display = 'none';
+          menuButton.style.display = 'none';
+          menu.style.display = 'none';
+        }
+      });
+
+      // Login form submission
+      document.getElementById('loginForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        const email = document.getElementById('email').value.toLowerCase();
+        const password = document.getElementById('password').value;
+        signInWithEmailAndPassword(auth, email, password)
+          .then(() => {
+            alert('Login successful!');
+          })
+          .catch((error) => {
+            const loginError = document.getElementById('loginError');
+            loginError.textContent = error.message;
+          });
+      });
+
+      // Logout button
+      document.getElementById('logoutButton').addEventListener('click', () => {
+        signOut(auth)
+          .then(() => {
+            alert('Logout successful!');
+          })
+          .catch((error) => {
+            console.error('Error logging out:', error);
+          });
+      });
+
+      // Function to add feedback
+      function addFeedback(feedback) {
+        push(feedbackRef, feedback);
+      }
+
+      // Function to fetch feedbacks by associate name
+      function fetchFeedbacks(searchName, callback) {
+        const feedbackQuery = query(feedbackRef, orderByChild('associateName'), equalTo(searchName));
+        onValue(feedbackQuery, (snapshot) => {
+          const feedbacks = [];
+          snapshot.forEach((childSnapshot) => {
+            feedbacks.push({ ...childSnapshot.val(), id: childSnapshot.key });
+          });
+          callback(feedbacks);
+        });
+      }
+
+      // Function to fetch FL feedbacks overview
+      function fetchFLFeedbacksOverview(callback) {
+        onValue(feedbackRef, (snapshot) => {
+          const flFeedbacks = {};
+          snapshot.forEach((childSnapshot) => {
+            const feedback = childSnapshot.val();
+            const flName = feedback.flSubmitted;
+            if (!flFeedbacks[flName]) {
+              flFeedbacks[flName] = { name: feedback.flSubmitted, count: 0 };
+            }
+            flFeedbacks[flName].count++;
+          });
+          callback(flFeedbacks);
+        });
+      }
+
+      // Function to fetch associate feedbacks overview
+      function fetchAssociateFeedbacksOverview(callback) {
+        onValue(feedbackRef, (snapshot) => {
+          const associateFeedbacks = {};
+          snapshot.forEach((childSnapshot) => {
+            const feedback = childSnapshot.val();
+            const associateName = feedback.associateName;
+            if (!associateFeedbacks[associateName]) {
+              associateFeedbacks[associateName] = { name: feedback.associateName, count: 0 };
+            }
+            associateFeedbacks[associateName].count++;
+          });
+          callback(associateFeedbacks);
+        });
+      }
+
+      // Function to fetch detailed feedback for a specific FL
+      function fetchFLDetails(flName, callback) {
+        const feedbackQuery = query(feedbackRef, orderByChild('flSubmitted'), equalTo(flName));
+        onValue(feedbackQuery, (snapshot) => {
+          const feedbacks = [];
+          snapshot.forEach((childSnapshot) => {
+            feedbacks.push({ ...childSnapshot.val(), id: childSnapshot.key });
+          });
+          callback(feedbacks);
+        });
+      }
+
+      // Function to fetch detailed feedback for a specific associate
+      function fetchAssociateDetails(associateName, callback) {
+        const feedbackQuery = query(feedbackRef, orderByChild('associateName'), equalTo(associateName));
+        onValue(feedbackQuery, (snapshot) => {
+          const feedbacks = [];
+          snapshot.forEach((childSnapshot) => {
+            feedbacks.push({ ...childSnapshot.val(), id: childSnapshot.key });
+          });
+          callback(feedbacks);
+        });
+      }
+
+      // Function to delete feedback from Firebase
+      function deleteFeedback(feedbackId) {
+        const feedbackToDelete = ref(database, `feedbacks/${feedbackId}`);
+        remove(feedbackToDelete)
+          .then(() => {
+            alert('Feedback deleted successfully!');
+          })
+          .catch((error) => {
+            console.error('Error deleting feedback:', error);
+          });
+      }
+
+      // Function to update feedback in Firebase
+      function updateFeedback(feedbackId, updatedFeedback) {
+        const feedbackToUpdate = ref(database, `feedbacks/${feedbackId}`);
+        update(feedbackToUpdate, updatedFeedback)
+          .then(() => {
+            alert('Feedback updated successfully!');
+          })
+          .catch((error) => {
+            console.error('Error updating feedback:', error);
+          });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // Function to convert input to uppercase, excluding email and password fields
+        function enforceUppercase(element) {
+          element.addEventListener('input', () => {
+            if (element.type !== 'email' && element.type !== 'password') {
+              element.value = element.value.toUpperCase().replace(/[^A-Z ]/g, '');
+            }
+          });
+        }
+
+        // Apply enforceUppercase function to relevant input fields
+        enforceUppercase(document.getElementById('associateName'));
+        enforceUppercase(document.getElementById('searchBar'));
+        enforceUppercase(document.getElementById('subTopic'));
+
+        // Event listener for the feedback form submission
+        document.getElementById('feedbackForm').addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const dateOfCoaching = document.getElementById('dateOfCoaching').value;
+          const flSubmitted = document.getElementById('flSubmitted').value;
+          const topicBulletPoint = document.getElementById('topicBulletPoint').value;
+          const subTopic = document.getElementById('subTopic').value.trim();
+          const associateName = document.getElementById('associateName').value.trim();
+          const feedbackText = document.getElementById('feedbackText').value.trim();
+
+          if (!dateOfCoaching || !flSubmitted || !topicBulletPoint || !subTopic || !associateName || !feedbackText) {
+            alert('Please fill in all fields before submitting.');
+            return;
+          }
+
+          const feedback = {
+            date: new Date().toISOString().slice(0, 10),
+            flSubmitted: flSubmitted,
+            topic: topicBulletPoint,
+            subTopic: subTopic,
+            associateName: associateName,
+            feedback: feedbackText
+          };
+
+          addFeedback(feedback);
+          document.getElementById('feedbackForm').reset();
+          alert('Feedback submitted successfully!');
+        });
+
+        // Event listener for search button click
+        document.getElementById('searchButton').addEventListener('click', () => {
+          const searchBar = document.getElementById('searchBar');
+          const searchName = searchBar.value.trim();
+          if (searchName) {
+            fetchFeedbacks(searchName, (feedbacks) => {
+              displayFeedbackSummary(searchName, feedbacks);
+            });
+          } else {
+            alert('Please enter an associate user ID.');
+          }
+        });
+
+        // Event listener for pressing Enter in the search bar
+        document.getElementById('searchBar').addEventListener('keypress', (event) => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            document.getElementById('searchButton').click();
+          }
+        });
+
+        // Function to display feedback summary
+        function displayFeedbackSummary(searchName, feedbacks) {
+          const summaryAssociateName = document.getElementById('summaryAssociateName');
+          const feedbackSummary = document.getElementById('feedbackSummary');
+          const searchResults = document.getElementById('searchResults');
+          const feedbackFormSection = document.getElementById('feedbackFormSection');
+          const flOverviewSection = document.getElementById('flOverviewSection');
+          const associateOverviewSection = document.getElementById('associateOverviewSection');
+          const detailView = document.getElementById('detailView');
+          const flDetailView = document.getElementById('flDetailView');
+          const associateDetailView = document.getElementById('associateDetailView');
+          const backToMainButton = document.getElementById('backToMainButton');
+          const backToSummaryButton = document.getElementById('backToSummaryButton');
+          const errorMessage = document.getElementById('errorMessage');
+
+          // Add event listeners for navigation buttons
+          backToMainButton.addEventListener('click', () => {
+            feedbackFormSection.style.display = 'block';
+            searchResults.style.display = 'none';
+            flOverviewSection.style.display = 'none';
+            associateOverviewSection.style.display = 'none';
+            detailView.style.display = 'none';
+            flDetailView.style.display = 'none';
+            associateDetailView.style.display = 'none';
+          });
+
+          backToSummaryButton.addEventListener('click', () => {
+            detailView.style.display = 'none';
+            searchResults.style.display = 'block';
+          });
+
+          summaryAssociateName.textContent = searchName.charAt(0).toUpperCase() + searchName.slice(1);
+          feedbackSummary.innerHTML = '';
+          let topics = {};
+
+          feedbacks.filter(f => f.associateName === searchName)
+            .forEach(f => {
+              if (!topics[f.topic]) {
+                topics[f.topic] = [];
+              }
+              topics[f.topic].push(f);
+            });
+
+          if (Object.keys(topics).length === 0) {
+            errorMessage.style.display = 'block';
+          } else {
+            errorMessage.style.display = 'none';
+            for (let topic in topics) {
+              let row = feedbackSummary.insertRow();
+              let topicCell = row.insertCell(0);
+              let button = document.createElement('button');
+              button.textContent = topic;
+              button.onclick = () => displayDetails(topics[topic]);
+              button.className = 'topicButton';
+              if (topic === 'Repeat Coaching') {
+                button.classList.add('repeat-coaching-button');
+              } else if (topic === 'Coaching') {
+                button.classList.add('coaching-button');
+              } else if (topic === 'Shoutout') {
+                button.classList.add('shoutout-button');
+              }
+              topicCell.appendChild(button);
+              row.insertCell(1).textContent = topics[topic].length;
+            }
+          }
+
+          searchResults.style.display = 'block';
+          feedbackFormSection.style.display = 'none';
+          flOverviewSection.style.display = 'none';
+          associateOverviewSection.style.display = 'none';
+          detailView.style.display = 'none';
+          flDetailView.style.display = 'none';
+          associateDetailView.style.display = 'none';
+        }
+
+        // Function to display detailed feedback
+        function displayDetails(feedbacks) {
+          const detailTableBody = document.querySelector('#detailTable tbody');
+          const detailView = document.getElementById('detailView');
+          const searchResults = document.getElementById('searchResults');
+
+          detailTableBody.innerHTML = '';
+          feedbacks.forEach(f => {
+            let row = detailTableBody.insertRow();
+            row.insertCell(0).textContent = f.date;
+            row.insertCell(1).textContent = f.topic;
+            row.insertCell(2).textContent = f.subTopic;
+            row.insertCell(3).textContent = f.feedback;
+            row.insertCell(4).textContent = f.flSubmitted;
+            row.insertCell(5).textContent = f.associateName;
+
+            // Add a delete button
+            let actionCell = row.insertCell(6);
+            let deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.className = 'deleteButton';
+            deleteButton.onclick = () => {
+              deleteFeedback(f.id);
+              row.remove();
+            };
+            actionCell.appendChild(deleteButton);
+
+            // Add an edit button
+            let editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.className = 'editButton';
+            editButton.onclick = () => {
+              enableEditing(row, f.id);
+            };
+            actionCell.appendChild(editButton);
+          });
+
+          detailView.style.display = 'block';
+          searchResults.style.display = 'none';
+        }
+
+        // Function to enable editing
+        function enableEditing(row, feedbackId) {
+          const cells = row.querySelectorAll('td');
+          const dateCell = cells[0];
+          const topicCell = cells[1];
+          const subTopicCell = cells[2];
+          const feedbackCell = cells[3];
+          const flSubmittedCell = cells[4];
+          const associateNameCell = cells[5];
+          const actionCell = cells[6];
+
+          dateCell.innerHTML = `<input type="date" value="${dateCell.textContent}">`;
+          topicCell.innerHTML = `
+            <select>
+              <option value="UPH" ${topicCell.textContent === 'UPH' ? 'selected' : ''}>UPH</option>
+              <option value="Shoutout" ${topicCell.textContent === 'Shoutout' ? 'selected' : ''}>Shoutout</option>
+              <option value="Repeat Coaching" ${topicCell.textContent === 'Repeat Coaching' ? 'selected' : ''}>Repeat Coaching</option>
+              <option value="Coaching" ${topicCell.textContent === 'Coaching' ? 'selected' : ''}>Coaching</option>
+              <option value="Training" ${topicCell.textContent === 'Training' ? 'selected' : ''}>Training</option>
+            </select>`;
+          subTopicCell.innerHTML = `<input type="text" value="${subTopicCell.textContent}">`;
+          feedbackCell.innerHTML = `<textarea>${feedbackCell.textContent}</textarea>`;
+          flSubmittedCell.innerHTML = `
+            <select>
+              <option value="SANJAY" ${flSubmittedCell.textContent === 'SANJAY' ? 'selected' : ''}>SANJAY</option>
+              <option value="SHABNAM" ${flSubmittedCell.textContent === 'SHABNAM' ? 'selected' : ''}>SHABNAM</option>
+              <option value="GIANCARLO" ${flSubmittedCell.textContent === 'GIANCARLO' ? 'selected' : ''}>GIANCARLO</option>
+              <option value="ANKUSH" ${flSubmittedCell.textContent === 'ANKUSH' ? 'selected' : ''}>ANKUSH</option>
+              <option value="DELL" ${flSubmittedCell.textContent === 'DELL' ? 'selected' : ''}>DELL</option>
+            </select>`;
+          associateNameCell.innerHTML = `<input type="text" value="${associateNameCell.textContent}">`;
+
+          const saveButton = document.createElement('button');
+          saveButton.textContent = 'Save';
+          saveButton.className = 'saveButton';
+          saveButton.onclick = () => {
+            const updatedFeedback = {
+              date: dateCell.querySelector('input').value,
+              topic: topicCell.querySelector('select').value,
+              subTopic: subTopicCell.querySelector('input').value,
+              feedback: feedbackCell.querySelector('textarea').value,
+              flSubmitted: flSubmittedCell.querySelector('select').value,
+              associateName: associateNameCell.querySelector('input').value
+            };
+
+            updateFeedback(feedbackId, updatedFeedback);
+
+            // Restore the original text content
+            dateCell.textContent = updatedFeedback.date;
+            topicCell.textContent = updatedFeedback.topic;
+            subTopicCell.textContent = updatedFeedback.subTopic;
+            feedbackCell.textContent = updatedFeedback.feedback;
+            flSubmittedCell.textContent = updatedFeedback.flSubmitted;
+            associateNameCell.textContent = updatedFeedback.associateName;
+
+            actionCell.removeChild(saveButton);
+          };
+
+          actionCell.appendChild(saveButton);
+        }
+
+        // Event listener for FL Feedbacks Overview link
+        document.getElementById('flFeedbacksOverview').addEventListener('click', (event) => {
+          event.preventDefault();
+          fetchFLFeedbacksOverview((flFeedbacks) => {
+            displayFLFeedbacksOverview(flFeedbacks);
+          });
+        });
+
+        // Function to display FL feedback overview
+        function displayFLFeedbacksOverview(flFeedbacks) {
+          const flOverviewSection = document.getElementById('flOverviewSection');
+          const feedbackFormSection = document.getElementById('feedbackFormSection');
+          const searchResults = document.getElementById('searchResults');
+          const detailView = document.getElementById('detailView');
+          const flDetailView = document.getElementById('flDetailView');
+          const associateOverviewSection = document.getElementById('associateOverviewSection');
+          const associateDetailView = document.getElementById('associateDetailView');
+          const flOverviewCards = document.getElementById('flOverviewCards');
+          const backToMainFromOverviewButton = document.getElementById('backToMainFromOverviewButton');
+
+          // Add event listener for back button
+          backToMainFromOverviewButton.addEventListener('click', () => {
+            flOverviewSection.style.display = 'none';
+            feedbackFormSection.style.display = 'block';
+          });
+
+          flOverviewCards.innerHTML = '';
+          for (let fl in flFeedbacks) {
+            let card = document.createElement('div');
+            card.className = 'fl-card';
+            let flName = document.createElement('h3');
+            flName.textContent = flFeedbacks[fl].name;
+            let flCount = document.createElement('p');
+            flCount.textContent = `Total Feedback Provided: ${flFeedbacks[fl].count}`;
+            let button = document.createElement('button');
+            button.textContent = 'View Details';
+            button.onclick = () => displayFLDetails(flFeedbacks[fl].name);
+            button.className = 'flButton';
+
+            card.appendChild(flName);
+            card.appendChild(flCount);
+            card.appendChild(button);
+            flOverviewCards.appendChild(card);
+          }
+
+          flOverviewSection.style.display = 'block';
+          feedbackFormSection.style.display = 'none';
+          searchResults.style.display = 'none';
+          detailView.style.display = 'none';
+          flDetailView.style.display = 'none';
+          associateOverviewSection.style.display = 'none';
+          associateDetailView.style.display = 'none';
+        }
+
+        // Function to display detailed feedback for a specific FL
+        function displayFLDetails(flName) {
+          fetchFLDetails(flName, (feedbacks) => {
+            const flDetailView = document.getElementById('flDetailView');
+            const flDetailTableBody = document.getElementById('flDetailTableBody');
+            const flOverviewSection = document.getElementById('flOverviewSection');
+            const backToOverviewButton = document.getElementById('backToOverviewButton');
+
+            // Add event listener for back button
+            backToOverviewButton.addEventListener('click', () => {
+              flDetailView.style.display = 'none';
+              flOverviewSection.style.display = 'block';
+            });
+
+            flDetailTableBody.innerHTML = '';
+            feedbacks.forEach(f => {
+              let row = flDetailTableBody.insertRow();
+              row.insertCell(0).textContent = f.date;
+              row.insertCell(1).textContent = f.topic;
+              row.insertCell(2).textContent = f.subTopic;
+              row.insertCell(3).textContent = f.feedback;
+              row.insertCell(4).textContent = f.flSubmitted;
+              row.insertCell(5).textContent = f.associateName;
+
+              // Add a delete button
+              let actionCell = row.insertCell(6);
+              let deleteButton = document.createElement('button');
+              deleteButton.textContent = 'Delete';
+              deleteButton.className = 'deleteButton';
+              deleteButton.onclick = () => {
+                deleteFeedback(f.id);
+                row.remove();
+              };
+              actionCell.appendChild(deleteButton);
+
+              // Add an edit button
+              let editButton = document.createElement('button');
+              editButton.textContent = 'Edit';
+              editButton.className = 'editButton';
+              editButton.onclick = () => {
+                enableEditing(row, f.id);
+              };
+              actionCell.appendChild(editButton);
+            });
+
+            flDetailView.style.display = 'block';
+            flOverviewSection.style.display = 'none';
+          });
+        }
+
+        // Event listener for Associates Feedbacks Overview link
+        document.getElementById('associateFeedbacksOverview').addEventListener('click', (event) => {
+          event.preventDefault();
+          fetchAssociateFeedbacksOverview((associateFeedbacks) => {
+            displayAssociateFeedbacksOverview(associateFeedbacks);
+          });
+        });
+
+        // Function to display associate feedback overview
+        function displayAssociateFeedbacksOverview(associateFeedbacks) {
+          const associateOverviewSection = document.getElementById('associateOverviewSection');
+          const feedbackFormSection = document.getElementById('feedbackFormSection');
+          const searchResults = document.getElementById('searchResults');
+          const detailView = document.getElementById('detailView');
+          const flDetailView = document.getElementById('flDetailView');
+          const flOverviewSection = document.getElementById('flOverviewSection');
+          const associateDetailView = document.getElementById('associateDetailView');
+          const associateOverviewCards = document.getElementById('associateOverviewCards');
+          const backToMainFromAssociateOverviewButton = document.getElementById('backToMainFromAssociateOverviewButton');
+
+          // Add event listener for back button
+          backToMainFromAssociateOverviewButton.addEventListener('click', () => {
+            associateOverviewSection.style.display = 'none';
+            feedbackFormSection.style.display = 'block';
+          });
+
+          associateOverviewCards.innerHTML = '';
+          for (let associate in associateFeedbacks) {
+            let card = document.createElement('div');
+            card.className = 'associate-card';
+            let associateName = document.createElement('h3');
+            associateName.textContent = associateFeedbacks[associate].name;
+            let associateCount = document.createElement('p');
+            associateCount.textContent = `Total Feedback Provided: ${associateFeedbacks[associate].count}`;
+            let button = document.createElement('button');
+            button.textContent = 'View Details';
+            button.onclick = () => fetchFeedbacks(associateFeedbacks[associate].name, (feedbacks) => {
+              displayFeedbackSummary(associateFeedbacks[associate].name, feedbacks);
+            });
+            button.className = 'associateButton';
+
+            card.appendChild(associateName);
+            card.appendChild(associateCount);
+            card.appendChild(button);
+            associateOverviewCards.appendChild(card);
+          }
+
+          associateOverviewSection.style.display = 'block';
+          feedbackFormSection.style.display = 'none';
+          searchResults.style.display = 'none';
+          detailView.style.display = 'none';
+          flDetailView.style.display = 'none';
+          flOverviewSection.style.display = 'none';
+          associateDetailView.style.display = 'none';
+        }
+
+        // Function to display detailed feedback for a specific associate
+        function displayAssociateDetails(associateName) {
+          fetchAssociateDetails(associateName, (feedbacks) => {
+            const associateDetailView = document.getElementById('associateDetailView');
+            const associateDetailTableBody = document.getElementById('associateDetailTableBody');
+            const associateOverviewSection = document.getElementById('associateOverviewSection');
+            const backToAssociateOverviewButton = document.getElementById('backToAssociateOverviewButton');
+
+            // Add event listener for back button
+            backToAssociateOverviewButton.addEventListener('click', () => {
+              associateDetailView.style.display = 'none';
+              associateOverviewSection.style.display = 'block';
+            });
+
+            associateDetailTableBody.innerHTML = '';
+            feedbacks.forEach(f => {
+              let row = associateDetailTableBody.insertRow();
+              row.insertCell(0).textContent = f.date;
+              row.insertCell(1).textContent = f.topic;
+              row.insertCell(2).textContent = f.subTopic;
+              row.insertCell(3).textContent = f.feedback;
+              row.insertCell(4).textContent = f.flSubmitted;
+              row.insertCell(5).textContent = f.associateName;
+
+              // Add a delete button
+              let actionCell = row.insertCell(6);
+              let deleteButton = document.createElement('button');
+              deleteButton.textContent = 'Delete';
+              deleteButton.className = 'deleteButton';
+              deleteButton.onclick = () => {
+                deleteFeedback(f.id);
+                row.remove();
+              };
+              actionCell.appendChild(deleteButton);
+
+              // Add an edit button
+              let editButton = document.createElement('button');
+              editButton.textContent = 'Edit';
+              editButton.className = 'editButton';
+              editButton.onclick = () => {
+                enableEditing(row, f.id);
+              };
+              actionCell.appendChild(editButton);
+            });
+
+            associateDetailView.style.display = 'block';
+            associateOverviewSection.style.display = 'none';
+          });
+        }
+
+        // Menu button event listener
+        const menuButton = document.getElementById('menuButton');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menu = document.getElementById('menu');
+
+        menuButton.addEventListener('click', () => {
+          menu.classList.toggle('open');
+          menuOverlay.style.display = menu.classList.contains('open') ? 'block' : 'none';
+        });
+
+        menuOverlay.addEventListener('click', () => {
+          menu.classList.remove('open');
+          menuOverlay.style.display = 'none';
+        });
+      });
+    </script>
+</body>
+</html>
