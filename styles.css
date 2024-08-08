@@ -1,0 +1,371 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+header {
+    background-color: #0044cc;
+    color: white;
+    padding: 65px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+#logoTitleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logoImage {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+}
+
+#menuButton {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+#menuButton .menu-icon {
+    display: inline-block;
+    cursor: pointer;
+}
+
+#menuButton .bar1, #menuButton .bar2, #menuButton .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: white;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+#searchContainer {
+    position: absolute;
+    top: 120px;
+    right: 20px;
+    display: flex;
+}
+
+#searchBar, #searchButton {
+    padding: 8px;
+    margin-right: 5px;
+}
+
+#searchBar {
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    text-transform: uppercase; /* Ensures input is always uppercase */
+}
+
+#searchButton {
+    background-color: #0084ff;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 16px;
+}
+
+#searchButton:hover {
+    background-color: #0056b3;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+form {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+input, select, textarea, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+input {
+    text-transform: uppercase; /* Ensures input is always uppercase */
+}
+
+button {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #004499;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 16px;
+}
+
+th {
+    background-color: #f1f1f1;
+}
+
+/* Menu styles */
+#menuOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+#menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 25%;
+    height: 100%;
+    background: white;
+    z-index: 1001;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease;
+    background-color: #b0c4de;
+    color: white;
+}
+
+#menu.open {
+    left: 0;
+}
+
+#menu h2 {
+    margin-top: 0;
+    color: white;
+}
+
+#menu a {
+    display: block;
+    padding: 10px 0;
+    text-decoration: none;
+    color: white;
+    transition: background 0.3s;
+}
+
+#menu a:hover {
+    background: #5d8dd3;
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin-bottom: 10px;
+}
+
+.profile-section h3 {
+    margin: 0;
+    color: white;
+}
+
+.menu-content {
+    margin-top: 600px;
+    color: white;
+}
+
+/* Cards for FL Feedbacks Overview */
+.fl-card, .associate-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.fl-card:hover, .associate-card:hover {
+    transform: scale(1.05);
+}
+
+.flButton, .associateButton {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.flButton:hover, .associateButton:hover {
+    background-color: #004499;
+}
+
+/* Container for cards */
+#flOverviewCards, #associateOverviewCards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.deleteButton {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.deleteButton:hover {
+    background-color: darkred;
+}
+
+.topicButton {
+    background-color: #0084ff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.topicButton:hover {
+    background-color: #0056b3;
+}
+
+/* FL Feedbacks Overview Page Specific Styles */
+#flOverviewSection {
+    background-color: #f8f9fa;
+    padding: 40px 20px;
+    border-radius: 8px;
+}
+
+#flOverviewSection h2 {
+    color: #333;
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-family: 'Georgia', serif;
+}
+
+#flOverviewCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.fl-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.fl-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.fl-card h3 {
+    color: #007bff;
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-family: 'Georgia', serif;
+}
+
+.fl-card p {
+    color: #555;
+    font-size: 16px;
+}
+
+.fl-card .flButton {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.fl-card .flButton:hover {
+    background-color: #0056b3;
+}
+
+#backToMainFromOverviewButton {
+    display: block;
+    margin: 20px auto;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#backToMainFromOverviewButton:hover {
+    background-color: #0056b3;
+}
